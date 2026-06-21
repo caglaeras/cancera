@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancera — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Brand — Navy */
+    --navy:#0A3161;
+    --navy-dark:#071F3E;
+    --navy-light:#E8EDF4;
+    /* Brand — Crimson */
+    --crimson:#B31942;
+    --crimson-dark:#8A1233;
+    --crimson-light:#FBE8EE;
+    /* Neutrals */
+    --bg:#FAFBFC;
+    --surface:#FFFFFF;
+    --text:#111827;
+    --text-soft:#4B5563;
+    --border:#E5E9F0;
+    /* Type */
+    --display:"Playfair Display",Georgia,serif;
+    --body:"DM Sans",system-ui,sans-serif;
+    /* Spacing scale (4px base) */
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+    --radius:14px; --radius-sm:8px;
+    --shadow:0 1px 2px rgba(7,31,62,.04),0 8px 24px rgba(7,31,62,.06);
+    --shadow-lg:0 20px 60px rgba(7,31,62,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);background:var(--bg);color:var(--text);
+    line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+  /* ---------- Layout shell ---------- */
+  .shell{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+  .side{
+    position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+    background:var(--navy-dark);color:#fff;padding:var(--s6) var(--s5);
+  }
+  .side .brand{display:flex;align-items:center;gap:10px;margin-bottom:var(--s7)}
+  .side nav a{
+    display:block;color:#AFC0D8;text-decoration:none;font-size:14px;font-weight:500;
+    padding:9px 12px;border-radius:8px;margin-bottom:2px;transition:.18s;
+  }
+  .side nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+  .side nav .grp{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5E7BA0;margin:var(--s5) 0 var(--s2);padding-left:12px}
+  .main{padding:var(--s8) var(--s8) var(--s9)}
+  .wrap{max-width:920px;margin:0 auto}
+  section{margin-bottom:var(--s9);scroll-margin-top:var(--s5)}
+
+  /* ---------- Logo mark ---------- */
+  .logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700}
+  .logo .bars{display:flex;gap:3px}
+  .logo .bars i{display:block;width:5px;height:22px;border-radius:2px}
+  .logo .bars i:nth-child(1){background:var(--navy);height:14px;align-self:flex-end}
+  .logo .bars i:nth-child(2){background:var(--crimson);height:22px}
+  .logo .bars i:nth-child(3){background:var(--navy);height:18px;align-self:flex-end}
+  .logo.on-dark .bars i:nth-child(1),.logo.on-dark .bars i:nth-child(3){background:#7FA0CC}
+  .logo .word{font-size:19px;letter-spacing:.02em}
+  .logo.on-dark .word{color:#fff}
+
+  /* ---------- Headings / eyebrows ---------- */
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:var(--s3)}
+  h2.sec{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.01em;margin-bottom:var(--s2)}
+  .sec-lead{color:var(--text-soft);font-size:16px;max-width:62ch;margin-bottom:var(--s6)}
+  h3.sub{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-soft);margin:var(--s6) 0 var(--s4)}
+
+  /* ---------- Hero (component demo) ---------- */
+  .hero{
+    position:relative;overflow:hidden;border-radius:var(--radius);
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
+    color:#fff;padding:var(--s8) var(--s7);margin-bottom:var(--s8);
+  }
+  .hero::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;
+    right:-120px;top:-140px;background:radial-gradient(circle,rgba(179,25,66,.55),transparent 68%);filter:blur(8px)}
+  .hero .eyebrow{color:#F2A9BE;position:relative}
+  .hero h1{font-family:var(--display);font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.02em;position:relative;max-width:18ch}
+  .hero p{position:relative;color:#C9D6E8;margin-top:var(--s4);max-width:52ch}
+  .hero .meta{position:relative;margin-top:var(--s6);display:flex;gap:var(--s5);flex-wrap:wrap;font-size:13px;color:#9FB4D0}
+  .hero .meta b{color:#fff;font-weight:600}
+
+  /* ---------- Color ---------- */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--s4)}
+  .swatch{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--surface);cursor:pointer;transition:.15s}
+  .swatch:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .swatch .chip{height:78px}
+  .swatch .meta{padding:10px 12px}
+  .swatch .name{font-size:13px;font-weight:600}
+  .swatch .hex{font-size:12px;color:var(--text-soft);font-variant-numeric:tabular-nums;margin-top:2px}
+
+  /* ---------- Type specimens ---------- */
+  .type-row{display:flex;align-items:baseline;gap:var(--s5);padding:var(--s4) 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .type-row .tag{font-size:11px;color:var(--text-soft);font-variant-numeric:tabular-nums;width:120px;flex-shrink:0}
+  .d1{font-family:var(--display);font-size:46px;font-weight:700;letter-spacing:-.02em;line-height:1.05}
+  .d2{font-family:var(--display);font-size:32px;font-weight:600;letter-spacing:-.01em}
+  .d3{font-family:var(--display);font-size:24px;font-weight:600}
+  .b-lg{font-size:18px}
+  .b-md{font-size:16px}
+  .b-sm{font-size:14px;color:var(--text-soft)}
+  .cap{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);font-weight:600}
+
+  /* ---------- Spacing scale ---------- */
+  .space-row{display:flex;align-items:center;gap:var(--s5);margin-bottom:var(--s3)}
+  .space-row .bar{height:16px;background:var(--navy-light);border-radius:3px}
+  .space-row .lbl{font-size:13px;color:var(--text-soft);width:140px;font-variant-numeric:tabular-nums}
+
+  /* ---------- Buttons ---------- */
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-size:15px;font-weight:600;
+    padding:13px 24px;border-radius:10px;border:1.5px solid transparent;cursor:pointer;text-decoration:none;transition:.18s}
+  .btn-primary{background:var(--crimson);color:#fff}
+  .btn-primary:hover{background:var(--crimson-dark)}
+  .btn-navy{background:var(--navy);color:#fff}
+  .btn-navy:hover{background:var(--navy-dark)}
+  .btn-ghost{background:transparent;color:var(--navy);border-color:var(--border)}
+  .btn-ghost:hover{border-color:var(--navy);background:var(--navy-light)}
+  .btn:focus-visible{outline:3px solid var(--crimson-light);outline-offset:2px}
+  .demo-row{display:flex;gap:var(--s4);flex-wrap:wrap;align-items:center}
+
+  /* ---------- Badges ---------- */
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px}
+  .badge-navy{background:var(--navy-light);color:var(--navy)}
+  .badge-crimson{background:var(--crimson-light);color:var(--crimson-dark)}
+  .badge-outline{border:1.5px solid var(--border);color:var(--text-soft)}
+
+  /* ---------- KPI cards ---------- */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--s4)}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s5);box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+  .kpi.navy::before{background:var(--navy)}
+  .kpi.crimson::before{background:var(--crimson)}
+  .kpi .num{font-family:var(--display);font-size:38px;font-weight:700;letter-spacing:-.02em;margin-top:var(--s2)}
+  .kpi .lbl{font-size:13px;color:var(--text-soft);margin-top:2px}
+
+  /* ---------- Tabs ---------- */
+  .tabs{border-bottom:1px solid var(--border);display:flex;gap:var(--s5)}
+  .tab{background:none;border:none;font-family:var(--body);font-size:15px;font-weight:600;color:var(--text-soft);
+    padding:0 0 12px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:.15s}
+  .tab[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--crimson)}
+  .tab:focus-visible{outline:2px solid var(--crimson);outline-offset:3px;border-radius:3px}
+  .tab-panel{padding:var(--s5) 0;color:var(--text-soft);font-size:15px}
+  .tab-panel[hidden]{display:none}
+
+  /* ---------- Callouts ---------- */
+  .callout{border-radius:var(--radius);padding:var(--s5);display:flex;gap:var(--s4);margin-bottom:var(--s4)}
+  .callout .ic{width:34px;height:34px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-weight:700;color:#fff}
+  .callout .ct{font-size:14px}
+  .callout .ct b{display:block;margin-bottom:3px;color:var(--text);font-size:15px}
+  .callout.info{background:var(--navy-light)}
+  .callout.info .ic{background:var(--navy)}
+  .callout.risk{background:var(--crimson-light)}
+  .callout.risk .ic{background:var(--crimson)}
+
+  /* ---------- Faculty card ---------- */
+  .fac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s5)}
+  .fac{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .fac .ph{height:6px;background:linear-gradient(90deg,var(--navy),var(--crimson))}
+  .fac .body{padding:var(--s5)}
+  .fac .avatar{width:56px;height:56px;border-radius:50%;background:var(--navy-light);color:var(--navy);
+    display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:20px;margin-bottom:var(--s4)}
+  .fac .nm{font-family:var(--display);font-size:20px;font-weight:700}
+  .fac .role{font-size:13px;color:var(--crimson-dark);font-weight:600;margin-top:2px}
+  .fac .inst{font-size:13px;color:var(--text-soft);margin-top:var(--s3);line-height:1.45}
+
+  /* ---------- Form ---------- */
+  .field{margin-bottom:var(--s4);max-width:440px}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+  .field input,.field select{width:100%;font-family:var(--body);font-size:15px;padding:12px 14px;
+    border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text)}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-light)}
+  .field .hint{font-size:12px;color:var(--text-soft);margin-top:5px}
+
+  /* ---------- Voice table ---------- */
+  .voice{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+  .voice .col{border:1px solid var(--border);border-radius:var(--radius);padding:var(--s5);background:var(--surface)}
+  .voice .col.do{border-top:3px solid var(--navy)}
+  .voice .col.dont{border-top:3px solid var(--crimson)}
+  .voice h4{font-size:14px;font-weight:700;margin-bottom:var(--s3)}
+  .voice li{font-size:14px;color:var(--text-soft);list-style:none;padding-left:22px;position:relative;margin-bottom:10px;line-height:1.45}
+  .voice li::before{position:absolute;left:0;font-weight:700}
+  .voice .do li::before{content:"✓";color:var(--navy)}
+  .voice .dont li::before{content:"✕";color:var(--crimson)}
+
+  /* ---------- Footer demo ---------- */
+  .ft{background:var(--navy-dark);color:#AFC0D8;border-radius:var(--radius);padding:var(--s7);font-size:14px}
+  .ft .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s6)}
+  .ft h5{color:#fff;font-size:13px;font-weight:600;letter-spacing:.06em;margin-bottom:var(--s4)}
+  .ft a{display:block;color:#AFC0D8;text-decoration:none;margin-bottom:9px;transition:.15s}
+  .ft a:hover{color:#fff}
+  .ft .base{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:#5E7BA0}
+
+  .note{font-size:13px;color:var(--text-soft);margin-top:var(--s4);font-style:italic}
+  .copied{font-size:11px;color:var(--crimson);font-weight:600;margin-left:8px;opacity:0;transition:.2s}
+
+  @media (max-width:880px){
+    .shell{grid-template-columns:1fr}
+    .side{position:static;height:auto;display:flex;flex-direction:column}
+    .side nav{display:flex;flex-wrap:wrap;gap:4px}
+    .side nav .grp{width:100%}
+    .main{padding:var(--s6) var(--s5) var(--s8)}
+    .hero h1{font-size:34px}
+    .voice{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brand">
+      <span class="logo on-dark"><span class="bars"><i></i><i></i><i></i></span><span class="word">CANCERA</span></span>
+    </div>
+    <nav>
+      <div class="grp">Foundations</div>
+      <a href="#brand">Marka & Ses</a>
+      <a href="#color">Renk</a>
+      <a href="#type">Tipografi</a>
+      <a href="#space">Boşluk & Izgara</a>
+      <div class="grp">Components</div>
+      <a href="#buttons">Butonlar</a>
+      <a href="#badges">Rozetler</a>
+      <a href="#kpi">KPI Kartları</a>
+      <a href="#tabs">Sekmeler</a>
+      <a href="#callouts">Bilgi Kutuları</a>
+      <a href="#faculty">Akademik Kadro</a>
+      <a href="#forms">Form Öğeleri</a>
+      <a href="#footer">Footer</a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="wrap">
+
+      <!-- Hero (also a component demo) -->
+      <header class="hero">
+        <div class="eyebrow">Living Design System · v1.0</div>
+        <h1>Cancera Tasarım Sistemi</h1>
+        <p>Kanserde akademik ikinci görüş platformunun marka dili: renk, tipografi, bileşenler ve ses rehberi — tek kaynakta, kullanıma hazır.</p>
+        <div class="meta">
+          <span><b>2</b> marka rengi</span>
+          <span><b>2</b> yazı tipi ailesi</span>
+          <span><b>10+</b> bileşen</span>
+          <span><b>Navy + Crimson</b> palet</span>
+        </div>
+      </header>
+
+      <!-- BRAND -->
+      <section id="brand">
+        <div class="eyebrow">Foundations</div>
+        <h2 class="sec">Marka & Ses</h2>
+        <p class="sec-lead">Cancera, belirsizlik içindeki kanser hastasına yön veren bağımsız, akademik ve hasta odaklı bir sestir. Görsel dil bu üç değeri taşır: güven veren lacivert, dikkat çeken bordo vurgular ve nefes alan boşluk.</p>
+
+        <h3 class="sub">Logo</h3>
+        <div class="demo-row" style="gap:var(--s7)">
+          <span class="logo"><span class="bars"><i></i><i></i><i></i></span><span class="word" style="color:var(--navy)">CANCERA</span></span>
+          <span style="background:var(--navy-dark);padding:14px 20px;border-radius:10px">
+            <span class="logo on-dark"><span class="bars"><i></i><i></i><i></i></span><span class="word">CANCERA</span></span>
+          </span>
+        </div>
+        <p class="note">Bar işaretleri: lacivert + bordo, farklı yükseklikte üç çubuk — akademik değerlendirmenin katmanlı yapısını temsil eder.</p>
+
+        <h3 class="sub">Marka değerleri</h3>
+        <div class="demo-row">
+          <span class="badge badge-navy">Bağımsız</span>
+          <span class="badge badge-navy">Akademik</span>
+          <span class="badge badge-crimson">Hasta Odaklı</span>
+        </div>
+
+        <h3 class="sub">Ses rehberi</h3>
+        <div class="voice">
+          <div class="col do">
+            <h4>Yapılır</h4>
+            <ul>
+              <li>Sade, güven veren ve anlaşılır dil kullan.</li>
+              <li>Hastayı aktif karar veren olarak konumlandır.</li>
+              <li>Kararın arkasındaki mantığı açıkla.</li>
+              <li>“Tedavi planınızdan emin olun” gibi yön veren ifadeler.</li>
+            </ul>
+          </div>
+          <div class="col dont">
+            <h4>Yapılmaz</h4>
+            <ul>
+              <li>Tedavi vaadi veya kesin sonuç iması verme.</li>
+              <li>Korku diliyle baskı kurma.</li>
+              <li>Anlaşılmaz tıbbi jargonu açıklamadan bırakma.</li>
+              <li>Hastayı pasif “alıcı” konumuna düşürme.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLOR -->
+      <section id="color">
+        <div class="eyebrow">Foundations</div>
+        <h2 class="sec">Renk</h2>
+        <p class="sec-lead">Lacivert güven ve akademik otoriteyi, bordo ise dikkat ve aciliyeti taşır. Bordo yalnızca vurgu için kullanılır; asla geniş zeminlerde değil. (Eski yeşil/altın palet kullanım dışıdır.) Bir kartı kopyalamak için üzerine tıkla.</p>
+
+        <h3 class="sub">Lacivert (Navy)</h3>
+        <div class="swatches">
+          <div class="swatch" onclick="cp(this,'#0A3161')"><div class="chip" style="background:#0A3161"></div><div class="meta"><div class="name">Navy</div><div class="hex">#0A3161 <span class="copied">kopyalandı</span></div></div></div>
+          <div class="swatch" onclick="cp(this,'#071F3E')"><div class="chip" style="background:#071F3E"></div><div class="meta"><div class="name">Navy Dark</div><div class="hex">#071F3E <span class="copied">kopyalandı</span></div></div></div>
+          <div class="swatch" onclick="cp(this,'#E8EDF4')"><div class="chip" style="background:#E8EDF4"></div><div class="meta"><div class="name">Navy Light</div><div class="hex">#E8EDF4 <span class="copied">kopyalandı</span></div></div></div>
+        </div>
+
+        <h3 class="sub">Bordo (Crimson)</h3>
+        <div class="swatches">
+          <div class="swatch" onclick="cp(this,'#B31942')"><div class="chip" style="background:#B31942"></div><div class="meta"><div class="name">Crimson</div><div class="hex">#B31942 <span class="copied">kopyalandı</span></div></div></div>
+          <div class="swatch" onclick="cp(this,'#8A1233')"><div class="chip" style="background:#8A1233"></div><div class="meta"><div class="name">Crimson Dark</div><div class="hex">#8A1233 <span class="copied">kopyalandı</span></div></div></div>
+          <div class="swatch" onclick="cp(this,'#FBE8EE')"><div class="chip" style="background:#FBE8EE"></div><div class="meta"><div class="name">Crimson Light</div><div class="hex">#FBE8EE <span class="copied">kopyalandı</span></div></div></div>
+        </div>
+
+        <h3 class="sub">Nötr & Metin</h3>
+        <div class="swatches">
+          <div class="swatch" onclick="cp(this,'#FAFBFC')"><div class="chip" style="background:#FAFBFC;border-bottom:1px solid var(--border)"></div><div class="meta"><div class="name">Background</div><div class="hex">#FAFBFC <span class="copied">kopyalandı</span></div></div></div>
+          <div class="swatch" onclick="cp(this,'#FFFFFF')"><div class="chip" style="background:#FFFFFF;border-bottom:1px solid var(--border)"></div><div class="meta"><div class="name">Surface</div><div class="hex">#FFFFFF <span class="copied">kopyalandı</span></div></div></div>
+          <div class="swatch" onclick="cp(this,'#111827')"><div class="chip" style="background:#111827"></div><div class="meta"><div class="name">Text</div><div class="hex">#111827 <span class="copied">kopyalandı</span></div></div></div>
+          <div class="swatch" onclick="cp(this,'#4B5563')"><div class="chip" style="background:#4B5563"></div><div class="meta"><div class="name">Text Soft</div><div class="hex">#4B5563 <span class="copied">kopyalandı</span></div></div></div>
+        </div>
+      </section>
+
+      <!-- TYPE -->
+      <section id="type">
+        <div class="eyebrow">Foundations</div>
+        <h2 class="sec">Tipografi</h2>
+        <p class="sec-lead">Başlıklarda <b>Playfair Display</b> (akademik, güvenilir, editoryal); metin ve arayüzde <b>DM Sans</b> (net, modern, okunaklı). Bu ikili, “bilimsel otorite + erişilebilirlik” dengesini kurar.</p>
+
+        <div class="type-row"><span class="tag">Display / 46 · 700</span><span class="d1">İkinci görüş nedir?</span></div>
+        <div class="type-row"><span class="tag">Display / 32 · 600</span><span class="d2">Tedavi planınızdan emin olun</span></div>
+        <div class="type-row"><span class="tag">Display / 24 · 600</span><span class="d3">Akademik değerlendirme süreci</span></div>
+        <div class="type-row"><span class="tag">Body L / 18</span><span class="b-lg">Dünyanın önde gelen kanser merkezlerinde görev yapan Türk hekimlerden birebir ikinci görüş.</span></div>
+        <div class="type-row"><span class="tag">Body M / 16</span><span class="b-md">Her hasta için kişiselleştirilmiş, anlaşılır ve güven veren bir değerlendirme süreci.</span></div>
+        <div class="type-row"><span class="tag">Body S / 14</span><span class="b-sm">Görüşme sonrasında size özel hazırlanmış akademik ikinci görüş raporu iletilir.</span></div>
+        <div class="type-row"><span class="tag">Caption / 12</span><span class="cap">Akademik Kadro · Harvard Medical School</span></div>
+      </section>
+
+      <!-- SPACE -->
+      <section id="space">
+        <div class="eyebrow">Foundations</div>
+        <h2 class="sec">Boşluk & Izgara</h2>
+        <p class="sec-lead">4px tabanlı ölçek. Bileşen içi boşluklarda küçük adımlar (4–16px), bölümler arası nefes için büyük adımlar (48–96px) kullanılır.</p>
+        <div class="space-row"><span class="lbl">--s1 · 4px</span><span class="bar" style="width:4px"></span></div>
+        <div class="space-row"><span class="lbl">--s2 · 8px</span><span class="bar" style="width:8px"></span></div>
+        <div class="space-row"><span class="lbl">--s3 · 12px</span><span class="bar" style="width:12px"></span></div>
+        <div class="space-row"><span class="lbl">--s4 · 16px</span><span class="bar" style="width:16px"></span></div>
+        <div class="space-row"><span class="lbl">--s5 · 24px</span><span class="bar" style="width:24px"></span></div>
+        <div class="space-row"><span class="lbl">--s6 · 32px</span><span class="bar" style="width:32px"></span></div>
+        <div class="space-row"><span class="lbl">--s7 · 48px</span><span class="bar" style="width:48px"></span></div>
+        <div class="space-row"><span class="lbl">--s8 · 64px</span><span class="bar" style="width:64px"></span></div>
+        <div class="space-row"><span class="lbl">--s9 · 96px</span><span class="bar" style="width:96px"></span></div>
+        <p class="note">Köşe yarıçapı: kartlar 14px, küçük öğeler 8px. Gölge: yumuşak ve lacivert tabanlı.</p>
+      </section>
+
+      <!-- BUTTONS -->
+      <section id="buttons">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">Butonlar</h2>
+        <p class="sec-lead">Birincil eylem (başvuru/ikinci görüş talebi) bordo; ikincil/güven eylemleri lacivert; nötr eylemler hayalet. Sayfa başına yalnızca bir birincil bordo CTA.</p>
+        <div class="demo-row">
+          <a class="btn btn-primary" href="#buttons">İkinci görüş talep et</a>
+          <a class="btn btn-navy" href="#buttons">Nasıl çalışır?</a>
+          <a class="btn btn-ghost" href="#buttons">Devamını oku</a>
+        </div>
+      </section>
+
+      <!-- BADGES -->
+      <section id="badges">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">Rozetler</h2>
+        <p class="sec-lead">Kategori, uzmanlık alanı ve durum etiketleri için. Lacivert nötr/bilgi, bordo vurgu/dikkat içindir.</p>
+        <div class="demo-row">
+          <span class="badge badge-navy">Onkoloji</span>
+          <span class="badge badge-navy">Patoloji</span>
+          <span class="badge badge-crimson">Yeni içerik</span>
+          <span class="badge badge-outline">Tanı · Tedavi</span>
+        </div>
+      </section>
+
+      <!-- KPI -->
+      <section id="kpi">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">KPI Kartları</h2>
+        <p class="sec-lead">Raporlar ve dashboardlar için. Üst şerit metriğin türünü kodlar: lacivert = nötr/hacim, bordo = dikkat/risk metriği.</p>
+        <div class="kpi-grid">
+          <div class="kpi navy"><div class="lbl">Bu hafta başvuru</div><div class="num">128</div><div class="lbl">geçen haftaya göre +14%</div></div>
+          <div class="kpi navy"><div class="lbl">Organik etkileşim</div><div class="num">4.2%</div><div class="lbl">Instagram, 7 gün</div></div>
+          <div class="kpi crimson"><div class="lbl">Kayıp lead oranı</div><div class="num">31%</div><div class="lbl">“Kişisel Sebepler” dahil</div></div>
+        </div>
+      </section>
+
+      <!-- TABS -->
+      <section id="tabs">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">Sekmeler</h2>
+        <p class="sec-lead">Aktif sekme bordo alt çizgiyle işaretlenir. Kitle segmentleri veya içerik kategorileri arasında geçiş için.</p>
+        <div class="tabs" role="tablist">
+          <button class="tab" role="tab" aria-selected="true" aria-controls="tp-1" id="t-1" onclick="seltab(0)">Hastalar</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="tp-2" id="t-2" onclick="seltab(1)">Yakınlar & Bakıcılar</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="tp-3" id="t-3" onclick="seltab(2)">Sağlık Profesyonelleri</button>
+        </div>
+        <div class="tab-panel" role="tabpanel" id="tp-1" aria-labelledby="t-1">Tanı almış, tedavi planı oluşturulmuş hastalar için akademik ikinci görüş ve yazılı rapor.</div>
+        <div class="tab-panel" role="tabpanel" id="tp-2" aria-labelledby="t-2" hidden>Karar sürecinde hastasına destek olmak isteyen aile üyeleri ve bakım verenler için rehber içerik.</div>
+        <div class="tab-panel" role="tabpanel" id="tp-3" aria-labelledby="t-3" hidden>Vakaları uluslararası merkez perspektifiyle değerlendirmek isteyen hekimler için iş birliği.</div>
+      </section>
+
+      <!-- CALLOUTS -->
+      <section id="callouts">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">Bilgi Kutuları</h2>
+        <p class="sec-lead">Lacivert kutu nötr bilgi/yönlendirme; bordo kutu dikkat gerektiren veya risk içeren uyarılar içindir.</p>
+        <div class="callout info">
+          <div class="ic">i</div>
+          <div class="ct"><b>Bilgilendirme</b>Cancera fiziksel muayene veya reçeteleme yapmaz; akademik değerlendirme ve ikinci görüş sunar.</div>
+        </div>
+        <div class="callout risk">
+          <div class="ic">!</div>
+          <div class="ct"><b>Dikkat</b>Bu içerik tıbbi tavsiye yerine geçmez. Kararlar her zaman tedavi eden hekimle birlikte verilmelidir.</div>
+        </div>
+      </section>
+
+      <!-- FACULTY -->
+      <section id="faculty">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">Akademik Kadro Kartı</h2>
+        <p class="sec-lead">Hekim profilleri için. Üstte lacivert→bordo geçiş şerit, isimde Playfair, kurum bilgisi yumuşak metinle.</p>
+        <div class="fac-grid">
+          <div class="fac"><div class="ph"></div><div class="body">
+            <div class="avatar">İŞ</div>
+            <div class="nm">Dr. İlyas Şahin</div>
+            <div class="role">Onkoloji · MD</div>
+            <div class="inst">Massachusetts General Hospital — Harvard Medical School Affiliate</div>
+          </div></div>
+          <div class="fac"><div class="ph"></div><div class="body">
+            <div class="avatar">MA</div>
+            <div class="nm">Dr. Mahmut Akgül</div>
+            <div class="role">Patoloji · MD</div>
+            <div class="inst">Brigham and Women’s Hospital — Harvard Medical School Affiliate</div>
+          </div></div>
+          <div class="fac"><div class="ph"></div><div class="body">
+            <div class="avatar">ZO</div>
+            <div class="nm">Dr. Zehra Ordulu</div>
+            <div class="role">Patoloji · MD</div>
+            <div class="inst">Brigham and Women’s Hospital — Harvard Medical School Affiliate</div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- FORMS -->
+      <section id="forms">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">Form Öğeleri</h2>
+        <p class="sec-lead">Başvuru ve RSVP formları için. Odakta lacivert kenarlık + yumuşak halka; yardımcı metin gizliliği ve niyeti netleştirir.</p>
+        <div class="field">
+          <label for="f-name">Ad Soyad</label>
+          <input id="f-name" type="text" placeholder="Adınız ve soyadınız">
+        </div>
+        <div class="field">
+          <label for="f-diag">Tanı durumu</label>
+          <select id="f-diag">
+            <option>Tanı aldım, tedavi planı oluşturuldu</option>
+            <option>Tanı aldım, tedaviye başladım</option>
+            <option>Hasta yakını / bakım veren</option>
+          </select>
+          <div class="hint">Bu bilgi yalnızca uygun uzman hekimle eşleştirme için kullanılır.</div>
+        </div>
+        <a class="btn btn-primary" href="#forms">Başvuruyu gönder</a>
+      </section>
+
+      <!-- FOOTER -->
+      <section id="footer">
+        <div class="eyebrow">Components</div>
+        <h2 class="sec">Footer</h2>
+        <p class="sec-lead">Koyu lacivert zemin, açık metin. Bağlantılar kitle ve kaynak gruplarına ayrılır.</p>
+        <div class="ft">
+          <div class="cols">
+            <div>
+              <h5>CANCERA’ya Katılın</h5>
+              <a href="#footer">Hastalar için</a>
+              <a href="#footer">Yakınlar & Bakıcılar</a>
+              <a href="#footer">Sağlık Profesyonelleri</a>
+              <a href="#footer">Akademisyenler için</a>
+            </div>
+            <div>
+              <h5>Hizmetler</h5>
+              <a href="#footer">Akademik İkinci Görüş</a>
+              <a href="#footer">Online Akademik Görüşme</a>
+              <a href="#footer">Yazılı İkinci Görüş Raporu</a>
+            </div>
+            <div>
+              <h5>Hakkında</h5>
+              <a href="#footer">Hakkımızda</a>
+              <a href="#footer">Akademik Kurul</a>
+              <a href="#footer">Nasıl Çalışır?</a>
+              <a href="#footer">İletişim</a>
+            </div>
+          </div>
+          <div class="base">© 2026 Cancera — Kanserde akademik ikinci görüş platformu. Tüm hakları saklıdır.</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  function cp(el,hex){
+    navigator.clipboard&&navigator.clipboard.writeText(hex);
+    var c=el.querySelector('.copied');
+    if(c){c.style.opacity=1;setTimeout(function(){c.style.opacity=0},1100);}
+  }
+  function seltab(i){
+    var tabs=document.querySelectorAll('#tabs .tab');
+    var panels=document.querySelectorAll('#tabs .tab-panel');
+    tabs.forEach(function(t,j){t.setAttribute('aria-selected',j===i);});
+    panels.forEach(function(p,j){p.hidden=j!==i;});
+  }
+</script>
+</body>
+</html>
