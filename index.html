@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancera — Tasarım Sistemi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ground:       #F7F4EF;
+  --surface:      #FFFFFF;
+  --surface-t:    #F0EDE7;
+  --text:         #1C1917;
+  --text-soft:    #6B6460;
+  --text-muted:   #A09890;
+  --accent:       #C4713E;
+  --accent-dk:    #9E5A30;
+  --accent-lt:    #F3E8DF;
+  --border:       #E2DDD5;
+  --border-s:     #C5BDB2;
+  --display:      'Cormorant Garamond', Georgia, serif;
+  --body:         'Inter', system-ui, sans-serif;
+  --s1:4px;  --s2:8px;   --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px;  --s8:72px; --s9:112px;
+  --r:10px;  --r-sm:5px; --r-full:999px;
+  --sh:    0 1px 3px rgba(28,25,23,.05), 0 4px 12px rgba(28,25,23,.06);
+  --sh-lg: 0 12px 40px rgba(28,25,23,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--ground);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ── TOP NAV ── */
+.topnav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(247,244,239,.93);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 var(--s7);height:54px;
+  display:flex;align-items:center;gap:var(--s4);
+}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.nav-logo .bars{display:flex;align-items:flex-end;gap:2.5px}
+.nav-logo .bars i{display:block;width:4px;border-radius:2px}
+.nav-logo .bars i:nth-child(1){height:11px;background:var(--text-muted)}
+.nav-logo .bars i:nth-child(2){height:18px;background:var(--accent)}
+.nav-logo .bars i:nth-child(3){height:14px;background:var(--text-muted)}
+.nav-logo .wordmark{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.04em;color:var(--text)}
+.nav-div{width:1px;height:18px;background:var(--border-s);margin:0 var(--s2);flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-grp{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);padding:5px 10px;white-space:nowrap}
+.nav-link{font-size:13px;font-weight:500;color:var(--text-soft);text-decoration:none;padding:5px 9px;border-radius:var(--r-sm);white-space:nowrap;transition:color .15s,background .15s}
+.nav-link:hover{color:var(--text);background:var(--surface-t)}
+.nav-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── LAYOUT ── */
+.main{max-width:880px;margin:0 auto;padding:var(--s8) var(--s7) var(--s9)}
+section{margin-bottom:var(--s9);scroll-margin-top:70px}
+
+/* ── HERO ── */
+.hero{padding:var(--s8) 0;border-bottom:1px solid var(--border);margin-bottom:var(--s8)}
+.hero-eye{font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--s4)}
+.hero h1{font-family:var(--display);font-size:clamp(40px,6vw,66px);font-weight:600;line-height:1.04;letter-spacing:-.02em;max-width:16ch;margin-bottom:var(--s5)}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--accent)}
+.hero-body{font-size:17px;color:var(--text-soft);max-width:58ch;line-height:1.65;margin-bottom:var(--s6)}
+.hero-meta{display:flex;gap:var(--s6);flex-wrap:wrap}
+.hero-stat .num{font-family:var(--display);font-size:28px;font-weight:600;line-height:1}
+.hero-stat .lbl{font-size:12px;color:var(--text-muted);margin-top:2px;letter-spacing:.04em}
+
+/* ── SECTION HEADERS ── */
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--s3);display:flex;align-items:center;gap:var(--s3)}
+.eyebrow::before{content:'';display:block;width:18px;height:1.5px;background:var(--accent);flex-shrink:0}
+h2.sec{font-family:var(--display);font-size:clamp(24px,4vw,34px);font-weight:600;letter-spacing:-.01em;line-height:1.1;margin-bottom:var(--s3)}
+.sec-lead{font-size:15px;color:var(--text-soft);max-width:68ch;line-height:1.7;margin-bottom:var(--s6)}
+h3.sub{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin:var(--s6) 0 var(--s4)}
+.note{font-size:13px;color:var(--text-muted);margin-top:var(--s4);font-style:italic}
+
+/* ── LOGOS ── */
+.logo-lg{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.logo-lg .bars{display:flex;align-items:flex-end;gap:3px}
+.logo-lg .bars i{display:block;width:5px;border-radius:2.5px}
+.logo-lg .bars i:nth-child(1){height:13px;background:var(--text-muted)}
+.logo-lg .bars i:nth-child(2){height:22px;background:var(--accent)}
+.logo-lg .bars i:nth-child(3){height:17px;background:var(--text-muted)}
+.logo-lg .wordmark{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:.04em;color:var(--text)}
+.logo-dk{display:inline-flex;align-items:center;gap:10px;background:var(--text);padding:14px 20px;border-radius:var(--r)}
+.logo-dk .bars{display:flex;align-items:flex-end;gap:3px}
+.logo-dk .bars i{display:block;width:5px;border-radius:2.5px}
+.logo-dk .bars i:nth-child(1){height:13px;background:rgba(247,244,239,.35)}
+.logo-dk .bars i:nth-child(2){height:22px;background:var(--accent)}
+.logo-dk .bars i:nth-child(3){height:17px;background:rgba(247,244,239,.35)}
+.logo-dk .wordmark{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:.04em;color:rgba(247,244,239,.95)}
+
+/* ── SWATCHES ── */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:var(--s3)}
+.swatch{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.swatch:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.swatch .chip{height:70px}
+.swatch .smeta{padding:10px 12px}
+.swatch .sname{font-size:13px;font-weight:500}
+.swatch .shex{font-size:12px;color:var(--text-muted);margin-top:2px;font-variant-numeric:tabular-nums}
+.copied{font-size:11px;color:var(--accent);font-weight:600;margin-left:5px;opacity:0;transition:opacity .2s}
+
+/* ── TYPE SCALE ── */
+.type-row{display:flex;align-items:baseline;gap:var(--s5);padding:var(--s4) 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.type-tag{font-size:11px;color:var(--text-muted);font-variant-numeric:tabular-nums;width:132px;flex-shrink:0;line-height:1.4}
+.t-d1{font-family:var(--display);font-size:48px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.t-d2{font-family:var(--display);font-size:32px;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+.t-d2i{font-family:var(--display);font-size:32px;font-weight:500;font-style:italic;letter-spacing:-.01em;line-height:1.1}
+.t-d3{font-family:var(--display);font-size:22px;font-weight:600;line-height:1.2}
+.t-bl{font-size:18px;line-height:1.6}
+.t-bm{font-size:15px;line-height:1.65}
+.t-bs{font-size:13px;color:var(--text-soft);line-height:1.6}
+.t-cap{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);font-weight:600}
+
+/* ── SPACING ── */
+.space-row{display:flex;align-items:center;gap:var(--s5);margin-bottom:var(--s3)}
+.space-row .bar{height:14px;background:var(--accent-lt);border:1px solid var(--border);border-radius:3px}
+.space-row .lbl{font-size:13px;color:var(--text-soft);width:140px;font-variant-numeric:tabular-nums}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--body);font-size:14px;font-weight:500;padding:11px 22px;border-radius:var(--r);border:1.5px solid transparent;cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s,box-shadow .15s,transform .1s;letter-spacing:.01em}
+.btn:focus-visible{outline:3px solid var(--accent-lt);outline-offset:2px}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-dk);border-color:var(--accent-dk)}
+.btn-secondary{background:var(--surface);color:var(--text);border-color:var(--border-s)}
+.btn-secondary:hover{background:var(--surface-t);border-color:var(--text-muted)}
+.btn-ghost{background:transparent;color:var(--text-soft);border-color:var(--border)}
+.btn-ghost:hover{background:var(--surface-t);color:var(--text)}
+.demo-row{display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.04em;padding:4px 10px;border-radius:var(--r-full)}
+.badge-dark{background:var(--text);color:var(--ground)}
+.badge-warm{background:var(--accent-lt);color:var(--accent-dk)}
+.badge-neutral{background:var(--surface-t);color:var(--text-soft);border:1px solid var(--border)}
+.badge-outline{border:1.5px solid var(--border-s);color:var(--text-soft)}
+
+/* ── KPI CARDS ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--s4)}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5);box-shadow:var(--sh);position:relative}
+.kpi::after{content:'';position:absolute;left:var(--s5);right:var(--s5);bottom:0;height:2px;border-radius:0 0 var(--r) var(--r);background:var(--border)}
+.kpi.warm::after{background:var(--accent)}
+.kpi .kpi-lbl{font-size:12px;color:var(--text-muted);letter-spacing:.04em;margin-bottom:var(--s2)}
+.kpi .kpi-num{font-family:var(--display);font-size:40px;font-weight:600;letter-spacing:-.02em;line-height:1;margin-bottom:var(--s2)}
+.kpi .kpi-sub{font-size:12px;color:var(--text-muted)}
+
+/* ── TABS ── */
+.tabs-wrap{border-bottom:1px solid var(--border);display:flex;gap:var(--s2)}
+.tab{background:none;border:none;font-family:var(--body);font-size:14px;font-weight:500;color:var(--text-muted);padding:var(--s3) var(--s3) 13px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent)}
+.tab:hover:not([aria-selected="true"]){color:var(--text-soft)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
+.tab-panel{padding:var(--s5) 0;font-size:15px;color:var(--text-soft);line-height:1.65}
+.tab-panel[hidden]{display:none}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:var(--r);padding:var(--s4) var(--s5);display:flex;gap:var(--s4);align-items:flex-start;margin-bottom:var(--s3);border:1px solid transparent}
+.callout .ic{width:28px;height:28px;border-radius:var(--r-sm);flex-shrink:0;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}
+.callout .ct{font-size:14px;line-height:1.55;color:var(--text-soft)}
+.callout .ct strong{display:block;margin-bottom:2px;font-size:14px;font-weight:600;color:var(--text)}
+.callout.info{background:var(--surface-t);border-color:var(--border)}
+.callout.info .ic{background:var(--text);color:var(--ground)}
+.callout.warn{background:var(--accent-lt);border-color:rgba(196,113,62,.2)}
+.callout.warn .ic{background:var(--accent);color:#fff}
+
+/* ── FACULTY CARDS ── */
+.fac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s4)}
+.fac-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.fac-card .fac-stripe{height:3px;background:var(--accent)}
+.fac-card .fac-body{padding:var(--s5)}
+.fac-card .fac-av{width:50px;height:50px;border-radius:50%;background:var(--surface-t);border:1.5px solid var(--border);display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:17px;color:var(--text-soft);margin-bottom:var(--s4);letter-spacing:.02em}
+.fac-card .fac-name{font-family:var(--display);font-size:20px;font-weight:600}
+.fac-card .fac-role{font-size:11px;color:var(--accent);font-weight:600;letter-spacing:.1em;margin-top:3px;text-transform:uppercase}
+.fac-card .fac-inst{font-size:13px;color:var(--text-soft);margin-top:var(--s3);line-height:1.5}
+
+/* ── FORMS ── */
+.field{margin-bottom:var(--s4);max-width:420px}
+.field label{display:block;font-size:13px;font-weight:500;margin-bottom:6px}
+.field input,.field select{width:100%;font-family:var(--body);font-size:14px;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+.field input:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(196,113,62,.12)}
+.field .hint{font-size:12px;color:var(--text-muted);margin-top:5px;line-height:1.5}
+
+/* ── VOICE ── */
+.voice{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.voice .col{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5)}
+.voice .col.do{border-top:3px solid var(--text)}
+.voice .col.dont{border-top:3px solid var(--accent)}
+.voice h4{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:var(--s3)}
+.voice li{font-size:14px;color:var(--text-soft);list-style:none;padding-left:20px;position:relative;margin-bottom:9px;line-height:1.5}
+.voice li::before{position:absolute;left:0;font-weight:700}
+.voice .do li::before{content:'✓';color:var(--text)}
+.voice .dont li::before{content:'✕';color:var(--accent)}
+
+/* ── FOOTER DEMO ── */
+.footer-demo{background:var(--text);color:rgba(247,244,239,.6);border-radius:var(--r);padding:var(--s7);font-size:14px}
+.footer-demo .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--s6)}
+.footer-demo h5{color:rgba(247,244,239,.85);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:var(--s4)}
+.footer-demo a{display:block;color:rgba(247,244,239,.5);text-decoration:none;margin-bottom:8px;transition:color .15s;font-size:13px}
+.footer-demo a:hover{color:rgba(247,244,239,.9)}
+.footer-demo .base{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid rgba(247,244,239,.1);font-size:11px;color:rgba(247,244,239,.28)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .topnav{padding:0 var(--s5)}
+  .nav-grp{display:none}
+  .main{padding:var(--s6) var(--s5) var(--s8)}
+  .voice{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Tasarım sistemi navigasyonu">
+  <a href="#" class="nav-logo" aria-label="Cancera">
+    <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="wordmark">CANCERA</span>
+  </a>
+  <div class="nav-div" aria-hidden="true"></div>
+  <div class="nav-links">
+    <span class="nav-grp">Temel</span>
+    <a href="#brand" class="nav-link">Marka</a>
+    <a href="#color" class="nav-link">Renk</a>
+    <a href="#type" class="nav-link">Tipografi</a>
+    <a href="#space" class="nav-link">Boşluk</a>
+    <span class="nav-grp">Bileşenler</span>
+    <a href="#buttons" class="nav-link">Butonlar</a>
+    <a href="#badges" class="nav-link">Rozetler</a>
+    <a href="#kpi" class="nav-link">KPI</a>
+    <a href="#tabs" class="nav-link">Sekmeler</a>
+    <a href="#callouts" class="nav-link">Bilgi Kutuları</a>
+    <a href="#faculty" class="nav-link">Kadro</a>
+    <a href="#forms" class="nav-link">Formlar</a>
+    <a href="#footer" class="nav-link">Footer</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <header class="hero">
+    <div class="hero-eye">Tasarım Sistemi · v2.0</div>
+    <h1>Cancera —<br><em>net,</em> güvenilir, insancıl</h1>
+    <p class="hero-body">Kanserde akademik ikinci görüş platformunun görsel dili. Renk, tipografi, bileşenler ve söylem rehberi — tek kaynakta, tutarlı ve kullanıma hazır.</p>
+    <div class="hero-meta">
+      <div class="hero-stat"><div class="num">5</div><div class="lbl">Token grubu</div></div>
+      <div class="hero-stat"><div class="num">2</div><div class="lbl">Yazı tipi ailesi</div></div>
+      <div class="hero-stat"><div class="num">12+</div><div class="lbl">Bileşen</div></div>
+      <div class="hero-stat"><div class="num">WCAG AA</div><div class="lbl">Kontrast uyumu</div></div>
+    </div>
+  </header>
+
+  <!-- BRAND -->
+  <section id="brand">
+    <div class="eyebrow">Temel</div>
+    <h2 class="sec">Marka &amp; Söylem</h2>
+    <p class="sec-lead">Cancera, belirsizlik içindeki kanser hastasına yön veren bağımsız, akademik ve hasta odaklı bir sestir. Görsel dil bu üç değeri taşır: sıcak güven veren bir zemin, tek ve dikkatli bir vurgu tonu, nefes alan boşluk.</p>
+
+    <h3 class="sub">Logo</h3>
+    <div class="demo-row" style="gap:var(--s6);align-items:center;flex-wrap:wrap">
+      <span class="logo-lg"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="wordmark">CANCERA</span></span>
+      <span class="logo-dk"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="wordmark">CANCERA</span></span>
+    </div>
+    <p class="note">Ortadaki çubuk vurgu renginde, yanlar arka planda — odak ve bağlamın ayrımını simgeler.</p>
+
+    <h3 class="sub">Marka değerleri</h3>
+    <div class="demo-row">
+      <span class="badge badge-dark">Bağımsız</span>
+      <span class="badge badge-dark">Akademik</span>
+      <span class="badge badge-warm">Hasta Odaklı</span>
+    </div>
+
+    <h3 class="sub">Söylem rehberi</h3>
+    <div class="voice">
+      <div class="col do">
+        <h4>Yapılır</h4>
+        <ul>
+          <li>Sade, güven veren ve anlaşılır dil kullan.</li>
+          <li>Hastayı aktif karar veren olarak konumlandır.</li>
+          <li>Kararın arkasındaki mantığı açıkla.</li>
+          <li>"Tedavi planınızdan emin olun" gibi yön veren ifadeler kullan.</li>
+        </ul>
+      </div>
+      <div class="col dont">
+        <h4>Yapılmaz</h4>
+        <ul>
+          <li>Tedavi vaadi veya kesin sonuç iması verme.</li>
+          <li>Korku diliyle baskı kurma.</li>
+          <li>Tıbbi jargonu açıklamadan bırakma.</li>
+          <li>Hastayı pasif "alıcı" konumuna düşürme.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOR -->
+  <section id="color">
+    <div class="eyebrow">Temel</div>
+    <h2 class="sec">Renk</h2>
+    <p class="sec-lead">Sıcak krem zemin güven ve açıklık verir. Terrakota vurgu yalnızca işlevsel rollerde belirir — CTA, aktif durum, dikkat. Tüm nötr tonlar warm-gray; asla cool-gray değil. Kopyalamak için üstüne tıkla.</p>
+
+    <h3 class="sub">Zemin &amp; Yüzey</h3>
+    <div class="swatches">
+      <div class="swatch" onclick="cp(this,'#F7F4EF')"><div class="chip" style="background:#F7F4EF;border-bottom:1px solid #E2DDD5"></div><div class="smeta"><div class="sname">Ground</div><div class="shex">#F7F4EF<span class="copied">kopyalandı</span></div></div></div>
+      <div class="swatch" onclick="cp(this,'#FFFFFF')"><div class="chip" style="background:#FFFFFF;border-bottom:1px solid #E2DDD5"></div><div class="smeta"><div class="sname">Surface</div><div class="shex">#FFFFFF<span class="copied">kopyalandı</span></div></div></div>
+      <div class="swatch" onclick="cp(this,'#F0EDE7')"><div class="chip" style="background:#F0EDE7"></div><div class="smeta"><div class="sname">Surface Tinted</div><div class="shex">#F0EDE7<span class="copied">kopyalandı</span></div></div></div>
+    </div>
+
+    <h3 class="sub">Metin</h3>
+    <div class="swatches">
+      <div class="swatch" onclick="cp(this,'#1C1917')"><div class="chip" style="background:#1C1917"></div><div class="smeta"><div class="sname">Text</div><div class="shex">#1C1917<span class="copied">kopyalandı</span></div></div></div>
+      <div class="swatch" onclick="cp(this,'#6B6460')"><div class="chip" style="background:#6B6460"></div><div class="smeta"><div class="sname">Text Soft</div><div class="shex">#6B6460<span class="copied">kopyalandı</span></div></div></div>
+      <div class="swatch" onclick="cp(this,'#A09890')"><div class="chip" style="background:#A09890"></div><div class="smeta"><div class="sname">Text Muted</div><div class="shex">#A09890<span class="copied">kopyalandı</span></div></div></div>
+    </div>
+
+    <h3 class="sub">Vurgu (Terrakota)</h3>
+    <div class="swatches">
+      <div class="swatch" onclick="cp(this,'#C4713E')"><div class="chip" style="background:#C4713E"></div><div class="smeta"><div class="sname">Accent</div><div class="shex">#C4713E<span class="copied">kopyalandı</span></div></div></div>
+      <div class="swatch" onclick="cp(this,'#9E5A30')"><div class="chip" style="background:#9E5A30"></div><div class="smeta"><div class="sname">Accent Dark</div><div class="shex">#9E5A30<span class="copied">kopyalandı</span></div></div></div>
+      <div class="swatch" onclick="cp(this,'#F3E8DF')"><div class="chip" style="background:#F3E8DF"></div><div class="smeta"><div class="sname">Accent Light</div><div class="shex">#F3E8DF<span class="copied">kopyalandı</span></div></div></div>
+    </div>
+
+    <h3 class="sub">Kenarlık</h3>
+    <div class="swatches">
+      <div class="swatch" onclick="cp(this,'#E2DDD5')"><div class="chip" style="background:#E2DDD5"></div><div class="smeta"><div class="sname">Border</div><div class="shex">#E2DDD5<span class="copied">kopyalandı</span></div></div></div>
+      <div class="swatch" onclick="cp(this,'#C5BDB2')"><div class="chip" style="background:#C5BDB2"></div><div class="smeta"><div class="sname">Border Strong</div><div class="shex">#C5BDB2<span class="copied">kopyalandı</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- TYPE -->
+  <section id="type">
+    <div class="eyebrow">Temel</div>
+    <h2 class="sec">Tipografi</h2>
+    <p class="sec-lead">Başlıklarda <strong>Cormorant Garamond</strong> — klasik, editoryal, kendi karakterini taşıyan; italik kesimi özellikle güçlü. Metin ve arayüzde <strong>Inter</strong> — hassas, WCAG uyumlu. Bu ikili "akademik otorite + erişilebilir açıklık" dengesini kurar.</p>
+    <div class="type-row"><span class="type-tag">Display / 48 · 600</span><span class="t-d1">İkinci görüş nedir?</span></div>
+    <div class="type-row"><span class="type-tag">Display / 32 · 600</span><span class="t-d2">Tedavi planınızdan emin olun</span></div>
+    <div class="type-row"><span class="type-tag">Display italic / 32</span><span class="t-d2i">net, güvenilir, insancıl</span></div>
+    <div class="type-row"><span class="type-tag">Display / 22 · 600</span><span class="t-d3">Akademik değerlendirme süreci</span></div>
+    <div class="type-row"><span class="type-tag">Body L / 18</span><span class="t-bl">Dünyanın önde gelen kanser merkezlerinde görev yapan Türk hekimlerden birebir ikinci görüş.</span></div>
+    <div class="type-row"><span class="type-tag">Body M / 15</span><span class="t-bm">Her hasta için kişiselleştirilmiş, anlaşılır ve güven veren bir değerlendirme süreci.</span></div>
+    <div class="type-row"><span class="type-tag">Body S / 13</span><span class="t-bs">Görüşme sonrasında size özel hazırlanmış akademik ikinci görüş raporu iletilir.</span></div>
+    <div class="type-row"><span class="type-tag">Caption / 11</span><span class="t-cap">Akademik Kadro · Harvard Medical School</span></div>
+  </section>
+
+  <!-- SPACE -->
+  <section id="space">
+    <div class="eyebrow">Temel</div>
+    <h2 class="sec">Boşluk &amp; Izgara</h2>
+    <p class="sec-lead">4px tabanlı ölçek. Bileşen içi boşluklarda küçük adımlar (4–16px), bölümler arası nefes için büyük adımlar (48–112px). Geniş boşluk bir lüks değil; belirsizliğin olmadığını işaret eder.</p>
+    <div class="space-row"><span class="lbl">--s1 · 4px</span><span class="bar" style="width:4px"></span></div>
+    <div class="space-row"><span class="lbl">--s2 · 8px</span><span class="bar" style="width:8px"></span></div>
+    <div class="space-row"><span class="lbl">--s3 · 12px</span><span class="bar" style="width:12px"></span></div>
+    <div class="space-row"><span class="lbl">--s4 · 16px</span><span class="bar" style="width:16px"></span></div>
+    <div class="space-row"><span class="lbl">--s5 · 24px</span><span class="bar" style="width:24px"></span></div>
+    <div class="space-row"><span class="lbl">--s6 · 32px</span><span class="bar" style="width:32px"></span></div>
+    <div class="space-row"><span class="lbl">--s7 · 48px</span><span class="bar" style="width:48px"></span></div>
+    <div class="space-row"><span class="lbl">--s8 · 72px</span><span class="bar" style="width:72px"></span></div>
+    <div class="space-row"><span class="lbl">--s9 · 112px</span><span class="bar" style="width:112px"></span></div>
+    <p class="note">Köşe yarıçapı: kartlar 10px, küçük öğeler 5px. Gölge warm-stone tabanlı; asla cool-blue değil.</p>
+  </section>
+
+  <!-- BUTTONS -->
+  <section id="buttons">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">Butonlar</h2>
+    <p class="sec-lead">Birincil eylem terrakota — sayfada yalnızca bir tane. İkincil eylemler beyaz yüzey üzerinde kenarlıklı. Hayalet buton düşük öncelikli bağlamlarda.</p>
+    <div class="demo-row">
+      <a class="btn btn-primary" href="#buttons">İkinci görüş talep et</a>
+      <a class="btn btn-secondary" href="#buttons">Nasıl çalışır?</a>
+      <a class="btn btn-ghost" href="#buttons">Devamını oku</a>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section id="badges">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">Rozetler</h2>
+    <p class="sec-lead">Tıbbi alan adları ve kategoriler koyu rozette; vurgu ve yeni içerik sıcak açık rozette. Arşiv ve ikincil etiketler nötr veya kenarlıklı.</p>
+    <div class="demo-row">
+      <span class="badge badge-dark">Onkoloji</span>
+      <span class="badge badge-dark">Patoloji</span>
+      <span class="badge badge-warm">Yeni içerik</span>
+      <span class="badge badge-outline">Tanı · Tedavi</span>
+      <span class="badge badge-neutral">Arşiv</span>
+    </div>
+  </section>
+
+  <!-- KPI -->
+  <section id="kpi">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">KPI Kartları</h2>
+    <p class="sec-lead">Raporlar ve dashboardlar için. Alt şerit yalnızca dikkat gerektiren metriklerde terrakotayla belirtilir; diğerleri nötr kalır.</p>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-lbl">Bu hafta başvuru</div><div class="kpi-num">128</div><div class="kpi-sub">geçen haftaya göre +14%</div></div>
+      <div class="kpi"><div class="kpi-lbl">Organik etkileşim</div><div class="kpi-num">4.2%</div><div class="kpi-sub">Instagram, 7 gün</div></div>
+      <div class="kpi warm"><div class="kpi-lbl">Kayıp lead oranı</div><div class="kpi-num">31%</div><div class="kpi-sub">"Kişisel Sebepler" dahil</div></div>
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <section id="tabs">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">Sekmeler</h2>
+    <p class="sec-lead">Aktif sekme terrakota alt çizgiyle işaretlenir. Kitle segmentleri veya içerik kategorileri arasında geçiş için.</p>
+    <div class="tabs-wrap" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="tp-1" id="t-1" onclick="seltab(0)">Hastalar</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tp-2" id="t-2" onclick="seltab(1)">Yakınlar &amp; Bakıcılar</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tp-3" id="t-3" onclick="seltab(2)">Sağlık Profesyonelleri</button>
+    </div>
+    <div class="tab-panel" role="tabpanel" id="tp-1" aria-labelledby="t-1">Tanı almış, tedavi planı oluşturulmuş hastalar için akademik ikinci görüş ve yazılı rapor.</div>
+    <div class="tab-panel" role="tabpanel" id="tp-2" aria-labelledby="t-2" hidden>Karar sürecinde hastasına destek olmak isteyen aile üyeleri ve bakım verenler için rehber içerik.</div>
+    <div class="tab-panel" role="tabpanel" id="tp-3" aria-labelledby="t-3" hidden>Vakaları uluslararası merkez perspektifiyle değerlendirmek isteyen hekimler için iş birliği kanalı.</div>
+  </section>
+
+  <!-- CALLOUTS -->
+  <section id="callouts">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">Bilgi Kutuları</h2>
+    <p class="sec-lead">Nötr kutu genel bilgilendirme için; sıcak vurgu kutu dikkat gerektiren uyarılar için. İkisi aynı sayfada art arda gelmez.</p>
+    <div class="callout info">
+      <div class="ic">i</div>
+      <div class="ct"><strong>Bilgilendirme</strong>Cancera fiziksel muayene veya reçeteleme yapmaz; akademik değerlendirme ve ikinci görüş sunar.</div>
+    </div>
+    <div class="callout warn">
+      <div class="ic">!</div>
+      <div class="ct"><strong>Dikkat</strong>Bu içerik tıbbi tavsiye yerine geçmez. Kararlar her zaman tedavi eden hekimle birlikte verilmelidir.</div>
+    </div>
+  </section>
+
+  <!-- FACULTY -->
+  <section id="faculty">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">Akademik Kadro Kartı</h2>
+    <p class="sec-lead">Hekim profilleri için. Üstte tek ince terrakota şerit; isimde Cormorant Garamond; kurum bilgisi yumuşak metinle.</p>
+    <div class="fac-grid">
+      <div class="fac-card">
+        <div class="fac-stripe"></div>
+        <div class="fac-body">
+          <div class="fac-av" aria-hidden="true">İŞ</div>
+          <div class="fac-name">Dr. İlyas Şahin</div>
+          <div class="fac-role">Onkoloji · MD</div>
+          <div class="fac-inst">Massachusetts General Hospital — Harvard Medical School Affiliate</div>
+        </div>
+      </div>
+      <div class="fac-card">
+        <div class="fac-stripe"></div>
+        <div class="fac-body">
+          <div class="fac-av" aria-hidden="true">MA</div>
+          <div class="fac-name">Dr. Mahmut Akgül</div>
+          <div class="fac-role">Patoloji · MD</div>
+          <div class="fac-inst">Brigham and Women's Hospital — Harvard Medical School Affiliate</div>
+        </div>
+      </div>
+      <div class="fac-card">
+        <div class="fac-stripe"></div>
+        <div class="fac-body">
+          <div class="fac-av" aria-hidden="true">ZO</div>
+          <div class="fac-name">Dr. Zehra Ordulu</div>
+          <div class="fac-role">Patoloji · MD</div>
+          <div class="fac-inst">Brigham and Women's Hospital — Harvard Medical School Affiliate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMS -->
+  <section id="forms">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">Form Öğeleri</h2>
+    <p class="sec-lead">Başvuru formları için. Odakta terrakota kenarlık ve yumuşak halka; yardımcı metin gizliliği ve niyeti netleştirir.</p>
+    <div class="field">
+      <label for="f-name">Ad Soyad</label>
+      <input id="f-name" type="text" placeholder="Adınız ve soyadınız">
+    </div>
+    <div class="field">
+      <label for="f-diag">Tanı durumu</label>
+      <select id="f-diag">
+        <option>Tanı aldım, tedavi planı oluşturuldu</option>
+        <option>Tanı aldım, tedaviye başladım</option>
+        <option>Hasta yakını / bakım veren</option>
+      </select>
+      <div class="hint">Bu bilgi yalnızca uygun uzman hekimle eşleştirme için kullanılır.</div>
+    </div>
+    <a class="btn btn-primary" href="#forms">Başvuruyu gönder</a>
+  </section>
+
+  <!-- FOOTER -->
+  <section id="footer">
+    <div class="eyebrow">Bileşenler</div>
+    <h2 class="sec">Footer</h2>
+    <p class="sec-lead">Near-black zemin, warm-tinted metin. Bağlantılar kitle ve hizmet gruplarına ayrılır.</p>
+    <div class="footer-demo">
+      <div class="cols">
+        <div>
+          <h5>Cancera'ya Katılın</h5>
+          <a href="#footer">Hastalar için</a>
+          <a href="#footer">Yakınlar &amp; Bakıcılar</a>
+          <a href="#footer">Sağlık Profesyonelleri</a>
+          <a href="#footer">Akademisyenler için</a>
+        </div>
+        <div>
+          <h5>Hizmetler</h5>
+          <a href="#footer">Akademik İkinci Görüş</a>
+          <a href="#footer">Online Akademik Görüşme</a>
+          <a href="#footer">Yazılı İkinci Görüş Raporu</a>
+        </div>
+        <div>
+          <h5>Hakkında</h5>
+          <a href="#footer">Hakkımızda</a>
+          <a href="#footer">Akademik Kurul</a>
+          <a href="#footer">Nasıl Çalışır?</a>
+          <a href="#footer">İletişim</a>
+        </div>
+      </div>
+      <div class="base">© 2026 Cancera — Kanserde akademik ikinci görüş platformu. Tüm hakları saklıdır.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function cp(el, hex) {
+  if (navigator.clipboard) navigator.clipboard.writeText(hex);
+  var f = el.querySelector('.copied');
+  if (f) { f.style.opacity = 1; setTimeout(function(){ f.style.opacity = 0; }, 1100); }
+}
+function seltab(i) {
+  document.querySelectorAll('#tabs .tab').forEach(function(t,j){
+    t.setAttribute('aria-selected', j===i ? 'true' : 'false');
+  });
+  document.querySelectorAll('#tabs .tab-panel').forEach(function(p,j){
+    p.hidden = j !== i;
+  });
+}
+</script>
+</body>
+</html>
